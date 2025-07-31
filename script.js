@@ -14,6 +14,7 @@ const resultsScreen = document.getElementById('results-screen');
 const resultsWpm = document.getElementById('results-wpm');
 const resultsAcc = document.getElementById('results-acc');
 const resultsTime = document.getElementById('results-time');
+const resultsRaw = document.getElementById('results-raw');
 const resultsChars = document.getElementById('results-chars');
 const uiControls = document.querySelector('.ui-controls');
 
@@ -184,10 +185,13 @@ function updateCursor() {
 function updateStats() {
     if (!gameState.active) return;
     const elapsedSeconds = (new Date() - gameState.startTime) / 1000;
-    const grossWPM = (gameState.totalTyped / 5) / (elapsedSeconds / 60);
+    
+    const correctChars = gameState.totalTyped - gameState.errors;
+    const netWPM = (correctChars / 5) / (elapsedSeconds / 60);
+    
     const accuracy = gameState.totalTyped > 0 ? Math.round(((gameState.totalTyped - gameState.errors) / gameState.totalTyped) * 100) : 100;
     
-    wpmDisplay.textContent = Math.round(grossWPM > 0 ? grossWPM : 0);
+    wpmDisplay.textContent = Math.round(netWPM > 0 ? netWPM : 0);
     accuracyDisplay.textContent = accuracy < 0 ? 0 : accuracy;
 }
 
@@ -211,13 +215,16 @@ function endGame() {
     uiControls.classList.remove('faded-out');
     
     const elapsedSeconds = (gameState.endTime - gameState.startTime) / 1000;
-    const finalWPM = Math.round((gameState.totalTyped / 5) / (elapsedSeconds / 60));
-    const finalAccuracy = gameState.totalTyped > 0 ? Math.round(((gameState.totalTyped - gameState.errors) / gameState.totalTyped) * 100) : 100;
     const correctChars = gameState.totalTyped - gameState.errors;
+
+    const finalNetWPM = Math.round((correctChars / 5) / (elapsedSeconds / 60));
+    const finalRawWPM = Math.round((gameState.totalTyped / 5) / (elapsedSeconds / 60));
+    const finalAccuracy = gameState.totalTyped > 0 ? Math.round((correctChars / gameState.totalTyped) * 100) : 100;
     
-    resultsWpm.textContent = finalWPM > 0 ? finalWPM : 0;
+    resultsWpm.textContent = finalNetWPM > 0 ? finalNetWPM : 0;
     resultsAcc.textContent = finalAccuracy < 0 ? 0 : finalAccuracy;
     resultsTime.textContent = `${elapsedSeconds.toFixed(1)}s`;
+    resultsRaw.textContent = `raw ${finalRawWPM > 0 ? finalRawWPM : 0}`;
     resultsChars.textContent = `${correctChars}/${gameState.errors}/${gameState.totalTyped}`;
     
     statsDiv.classList.add('hidden');
