@@ -35,3 +35,14 @@ body { background-color: var(--bg-color); font-family: 'Poppins', sans-serif; co
 #restart-btn { background: none; border: none; cursor: pointer; color: var(--ui-color); width: 3rem; height: 3rem; opacity: 0.7; transition: opacity 0.3s, transform 0.3s ease-out, color 0.3s; }
 #restart-btn:hover { opacity: 1; transform: rotate(360deg); }
 #restart-btn svg { width: 100%; height: 100%; fill: currentColor; }
+
+#results-screen { display: flex; flex-direction: column; align-items: center; gap: 1rem; width: 100%; transition: opacity 0.3s ease-in-out; }
+.results-main { display: flex; align-items: baseline; gap: 2.5rem; }
+.result-value { font-size: 6rem; font-weight: 500; color: var(--main-color); line-height: 1; }
+#results-acc::after { content: '%'; font-size: 2.5rem; color: var(--text-color); }
+.results-details { display: flex; gap: 1rem; font-size: 1rem; color: var(--text-color); }
+.detail-item:not(:last-child)::after { content: '·'; margin-left: 1rem; }
+.restart-prompt { display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; color: var(--ui-color); opacity: 0.7; margin-top: 2rem; }
+.restart-prompt svg { width: 1rem; height: 1rem; fill: currentColor; animation: pulse 2.5s infinite ease-in-out; }
+@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+.hidden { opacity: 0 !important; pointer-events: none !important; position: absolute !important; }

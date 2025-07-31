@@ -1,3 +1,4 @@
+const logo = document.getElementById('logo');
 const wordsDiv = document.getElementById('words');
 const wpmDisplay = document.getElementById('wpm');
 const accuracyDisplay = document.getElementById('accuracy');
@@ -5,10 +6,20 @@ const restartBtn = document.getElementById('restart-btn');
 const themeBtn = document.getElementById('theme-btn');
 const modeBtn = document.getElementById('mode-btn');
 const fullscreenBtn = document.getElementById('fullscreen-btn');
+const focusHint = document.getElementById('focus-hint');
+const container = document.querySelector('.container');
+const typingArea = document.getElementById('typing-area');
+const statsDiv = document.getElementById('stats');
+const resultsScreen = document.getElementById('results-screen');
+const resultsWpm = document.getElementById('results-wpm');
+const resultsAcc = document.getElementById('results-acc');
+const resultsTime = document.getElementById('results-time');
+const resultsChars = document.getElementById('results-chars');
+const uiControls = document.querySelector('.ui-controls');
 
 const wordList = [ 'the', 'be', 'of', 'and', 'a', 'to', 'in', 'he', 'have', 'it', 'that', 'for', 'they', 'I', 'with', 'as', 'not', 'on', 'she', 'at', 'by', 'this', 'we', 'you', 'do', 'but', 'from', 'or', 'which', 'one', 'would', 'all', 'will', 'there', 'say', 'who', 'make', 'when', 'can', 'more', 'if', 'no', 'man', 'out', 'other', 'so', 'what', 'time', 'up', 'go', 'about', 'than', 'into', 'could', 'state', 'only', 'new', 'year', 'some', 'take', 'come', 'these', 'know', 'see', 'use', 'get', 'like', 'then', 'first', 'any', 'work', 'now', 'may', 'such', 'give', 'over', 'think', 'most', 'even', 'find', 'day', 'also', 'after', 'way', 'many', 'must', 'look', 'before', 'great', 'back', 'through', 'long', 'where', 'much', 'should', 'well', 'people', 'down', 'own', 'just', 'because', 'good', 'each', 'those', 'feel', 'seem', 'how', 'high', 'too', 'place', 'little', 'world', 'very', 'still', 'nation', 'hand', 'old', 'life', 'tell', 'write', 'become', 'here', 'show', 'house', 'both', 'between', 'need', 'mean', 'call', 'develop', 'under', 'last', 'right', 'move', 'thing', 'general', 'school', 'never', 'same', 'another', 'begin', 'while', 'number', 'part', 'turn', 'real', 'leave', 'might', 'want', 'point', 'form', 'off', 'child', 'few', 'small', 'since', 'against', 'ask', 'late', 'home', 'interest', 'large', 'person', 'end', 'open', 'public', 'follow', 'during', 'present', 'without', 'again', 'hold', 'govern', 'around', 'possible', 'head', 'consider', 'word', 'program', 'problem', 'however', 'lead', 'system', 'set', 'order', 'eye', 'plan', 'run', 'keep', 'face', 'fact', 'group', 'play', 'stand', 'increase', 'early', 'course', 'change', 'help', 'line' ];
 
-let gameActive = false; let startTime, statsInterval;
+let gameActive = false; let startTime, endTime, statsInterval;
 let charElements = []; let currentIndex = 0, totalTyped = 0, errors = 0;
 let currentGameMode = 'normal';
 const themes = ['light', 'dark', 'oled']; let currentThemeIndex = 1;
@@ -16,11 +27,11 @@ const themes = ['light', 'dark', 'oled']; let currentThemeIndex = 1;
 function initGame() {
     gameActive = false; clearInterval(statsInterval);
     currentIndex = 0; totalTyped = 0; errors = 0; charElements = [];
-    wpmDisplay.textContent = '0'; accuracyDisplay.textContent = '100'; wordsDiv.innerHTML = ''; wordsDiv.style.top = '0px';
+    resultsScreen.classList.add('hidden'); statsDiv.classList.remove('hidden'); typingArea.classList.remove('hidden');
+    wordsDiv.innerHTML = ''; wordsDiv.style.top = '0px'; wpmDisplay.textContent = '0'; accuracyDisplay.textContent = '100';
     const wordCount = currentGameMode === 'normal' ? 30 : 50;
     addWordsToDom(wordCount); updateCursor();
 }
-
 function addWordsToDom(count) {
     const words = generateWords(count);
     words.forEach(word => {
@@ -77,6 +88,8 @@ function checkLineScroll() {
     }
 }
 function handleKeyPress(e) {
+    if (!gameActive && !resultsScreen.classList.contains('hidden')) { if (e.key === 'Enter') { initGame(); } return; }
+    if (currentGameMode === 'normal' && currentIndex === charElements.length - 1) { endGame(); }
     if (currentIndex >= charElements.length) return;
     if (!gameActive) {
         gameActive = true; startTime = new Date(); statsInterval = setInterval(updateStats, 1000);
@@ -110,6 +123,20 @@ function toggleFullscreen() {
     } else {
         document.exitFullscreen();
     }
+}
+function endGame() {
+    gameActive = false; endTime = new Date(); clearInterval(statsInterval);
+    const elapsedSeconds = (endTime - startTime) / 1000;
+    const finalWPM = Math.round((totalTyped / 5) / (elapsedSeconds / 60));
+    const finalAccuracy = totalTyped > 0 ? Math.round(((totalTyped - errors) / totalTyped) * 100) : 100;
+    const correctChars = totalTyped - errors;
+    
+    resultsWpm.textContent = finalWPM > 0 ? finalWPM : 0;
+    resultsAcc.textContent = finalAccuracy < 0 ? 0 : finalAccuracy;
+    resultsTime.textContent = `${elapsedSeconds.toFixed(1)}s`;
+    resultsChars.textContent = `${correctChars}/${errors}/${totalTyped}`;
+    
+    statsDiv.classList.add('hidden'); typingArea.classList.add('hidden'); resultsScreen.classList.remove('hidden');
 }
 
 document.addEventListener('keydown', handleKeyPress);
