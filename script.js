@@ -1,11 +1,14 @@
 const wordsDiv = document.getElementById('words');
 const wpmDisplay = document.getElementById('wpm');
 const accuracyDisplay = document.getElementById('accuracy');
+const restartBtn = document.getElementById('restart-btn');
+const themeBtn = document.getElementById('theme-btn');
 
 const wordList = [ 'the', 'be', 'of', 'and', 'a', 'to', 'in', 'he', 'have', 'it', 'that', 'for', 'they', 'I', 'with', 'as', 'not', 'on', 'she', 'at', 'by', 'this', 'we', 'you', 'do', 'but', 'from', 'or', 'which', 'one', 'would', 'all', 'will', 'there', 'say', 'who', 'make', 'when', 'can', 'more', 'if', 'no', 'man', 'out', 'other', 'so', 'what', 'time', 'up', 'go', 'about', 'than', 'into', 'could', 'state', 'only', 'new', 'year', 'some', 'take', 'come', 'these', 'know', 'see', 'use', 'get', 'like', 'then', 'first', 'any', 'work', 'now', 'may', 'such', 'give', 'over', 'think', 'most', 'even', 'find', 'day', 'also', 'after', 'way', 'many', 'must', 'look', 'before', 'great', 'back', 'through', 'long', 'where', 'much', 'should', 'well', 'people', 'down', 'own', 'just', 'because', 'good', 'each', 'those', 'feel', 'seem', 'how', 'high', 'too', 'place', 'little', 'world', 'very', 'still', 'nation', 'hand', 'old', 'life', 'tell', 'write', 'become', 'here', 'show', 'house', 'both', 'between', 'need', 'mean', 'call', 'develop', 'under', 'last', 'right', 'move', 'thing', 'general', 'school', 'never', 'same', 'another', 'begin', 'while', 'number', 'part', 'turn', 'real', 'leave', 'might', 'want', 'point', 'form', 'off', 'child', 'few', 'small', 'since', 'against', 'ask', 'late', 'home', 'interest', 'large', 'person', 'end', 'open', 'public', 'follow', 'during', 'present', 'without', 'again', 'hold', 'govern', 'around', 'possible', 'head', 'consider', 'word', 'program', 'problem', 'however', 'lead', 'system', 'set', 'order', 'eye', 'plan', 'run', 'keep', 'face', 'fact', 'group', 'play', 'stand', 'increase', 'early', 'course', 'change', 'help', 'line' ];
 
 let gameActive = false; let startTime, statsInterval;
 let charElements = []; let currentIndex = 0, totalTyped = 0, errors = 0;
+const themes = ['light', 'dark', 'oled']; let currentThemeIndex = 1;
 
 function initGame() {
     gameActive = false; clearInterval(statsInterval);
@@ -59,6 +62,42 @@ function updateStats() {
     wpmDisplay.textContent = Math.round(grossWPM > 0 ? grossWPM : 0);
     accuracyDisplay.textContent = accuracy < 0 ? 0 : accuracy;
 }
+function checkLineScroll() {
+    if (currentIndex > 0 && charElements[currentIndex]) {
+        const currentWordDiv = charElements[currentIndex].parentElement;
+        if (currentWordDiv.offsetTop > charElements[currentIndex - 1].parentElement.offsetTop) {
+            wordsDiv.style.top = `-${currentWordDiv.offsetTop}px`;
+        }
+    }
+}
+
+function handleKeyPress(e) {
+    if (currentIndex >= charElements.length) return;
+    if (!gameActive) {
+        gameActive = true; startTime = new Date(); statsInterval = setInterval(updateStats, 1000);
+    }
+    if (e.key.length > 1 && e.key !== 'Backspace') return;
+    e.preventDefault();
+    if (e.key === 'Backspace') { handleBackspace(); } else { handleCharacter(e.key); }
+    updateCursor();
+    checkLineScroll();
+    if (currentIndex === charElements.length - 1) { gameActive = false; clearInterval(statsInterval); }
+}
+
+function toggleTheme() {
+    currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+    const newTheme = themes[currentThemeIndex];
+    document.body.className = newTheme === 'dark' ? '' : `${newTheme}-mode`;
+    themeBtn.textContent = newTheme;
+    localStorage.setItem('typing-theme', newTheme);
+}
 
 document.addEventListener('keydown', handleKeyPress);
+restartBtn.addEventListener('click', initGame);
+themeBtn.addEventListener('click', toggleTheme);
+
+const savedTheme = localStorage.getItem('typing-theme') || 'dark';
+currentThemeIndex = themes.indexOf(savedTheme);
+document.body.className = savedTheme === 'dark' ? '' : `${savedTheme}-mode`;
+themeBtn.textContent = savedTheme;
 initGame();
