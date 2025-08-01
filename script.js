@@ -5,6 +5,7 @@ const accuracyDisplay = document.getElementById('accuracy');
 const restartBtn = document.getElementById('restart-btn');
 const themeBtn = document.getElementById('theme-btn');
 const modeBtn = document.getElementById('mode-btn');
+const appModeBtn = document.getElementById('app-mode-btn');
 const fullscreenBtn = document.getElementById('fullscreen-btn');
 const focusHint = document.getElementById('focus-hint');
 const container = document.querySelector('.container');
@@ -17,6 +18,8 @@ const resultsTime = document.getElementById('results-time');
 const resultsRaw = document.getElementById('results-raw');
 const resultsChars = document.getElementById('results-chars');
 const uiControls = document.querySelector('.ui-controls');
+const practiceContent = document.getElementById('practice-content');
+const learnModeMessage = document.getElementById('learn-mode-message');
 
 const wordList = [
     'keyboard', 'ocean', 'beautiful', 'diamond', 'mountain', 'sunshine', 'technology', 'adventure', 'chocolate', 'quality',
@@ -93,6 +96,7 @@ const gameState = {
     totalTyped: 0,
     errors: 0,
     mode: 'normal',
+    appMode: 'practice',
 };
 
 let statsInterval;
@@ -120,6 +124,8 @@ function animateLogo() {
 }
 
 function initGame() {
+    if (gameState.appMode !== 'practice') return;
+
     gameState.active = false;
     clearInterval(statsInterval);
     document.body.classList.remove('hide-cursor');
@@ -184,6 +190,8 @@ function generateWords(count) {
 }
 
 function handleKeyPress(e) {
+    if (gameState.appMode === 'learn') return;
+
     if (!gameState.active && !resultsScreen.classList.contains('hidden')) {
         if (e.key === 'Enter') initGame();
         return;
@@ -212,7 +220,7 @@ function handleKeyPress(e) {
     updateCursor();
     checkLineScroll();
 
-    if (gameState.mode === 'zen' && gameState.currentIndex > gameState.charElements.length * 0.7) {
+    if (gameState.mode === 'zen' && gameState.currentIndex > gameState.charElements.length * 0.5) {
         addWordsToDom(30);
     }
     if (gameState.mode === 'normal' && gameState.currentIndex === gameState.charElements.length - 1) {
@@ -253,10 +261,10 @@ function updateCursor() {
 function updateStats() {
     if (!gameState.active) return;
     const elapsedSeconds = (new Date() - gameState.startTime) / 1000;
-
+    
     const correctChars = gameState.currentIndex - gameState.errors;
     const netWPM = (correctChars / 5) / (elapsedSeconds / 60);
-
+    
     const accuracy = gameState.currentIndex > 0 ? Math.round(((gameState.currentIndex - gameState.errors) / gameState.currentIndex) * 100) : 100;
     
     wpmDisplay.textContent = Math.round(netWPM > 0 ? netWPM : 0);
@@ -302,10 +310,8 @@ function endGame() {
 
 function toggleTheme() {
     themes.forEach(theme => document.body.classList.remove(`${theme}-mode`));
-    
     currentThemeIndex = (currentThemeIndex + 1) % themes.length;
     const newTheme = themes[currentThemeIndex];
-    
     document.body.classList.add(`${newTheme}-mode`);
     themeBtn.textContent = newTheme;
     localStorage.setItem('typing-theme', newTheme);
@@ -315,6 +321,28 @@ function toggleMode() {
     gameState.mode = gameState.mode === 'normal' ? 'zen' : 'normal';
     modeBtn.textContent = gameState.mode;
     initGame();
+}
+
+function toggleAppMode() {
+    if (gameState.appMode === 'practice') {
+        gameState.appMode = 'learn';
+        appModeBtn.textContent = 'learn';
+        practiceContent.classList.add('hidden');
+        focusHint.classList.add('hidden');
+        uiControls.classList.add('hidden');
+        learnModeMessage.classList.remove('hidden');
+        clearInterval(statsInterval);
+        gameState.active = false;
+        container.classList.remove('typing');
+    } else {
+        gameState.appMode = 'practice';
+        appModeBtn.textContent = 'practice';
+        learnModeMessage.classList.add('hidden');
+        practiceContent.classList.remove('hidden');
+        focusHint.classList.remove('hidden');
+        uiControls.classList.remove('hidden');
+        initGame();
+    }
 }
 
 function updateFullscreenButton() {
@@ -341,6 +369,7 @@ document.addEventListener('keydown', handleKeyPress);
 restartBtn.addEventListener('click', initGame);
 themeBtn.addEventListener('click', toggleTheme);
 modeBtn.addEventListener('click', toggleMode);
+appModeBtn.addEventListener('click', toggleAppMode);
 fullscreenBtn.addEventListener('click', toggleFullscreen);
 document.addEventListener('fullscreenchange', updateFullscreenButton);
 
@@ -355,7 +384,8 @@ document.addEventListener('mousemove', () => {
 
 const savedTheme = localStorage.getItem('typing-theme') || 'dark';
 currentThemeIndex = themes.indexOf(savedTheme);
-if (currentThemeIndex === -1) currentThemeIndex = 1; 
+if (currentThemeIndex === -1) currentThemeIndex = 1;
+
 document.body.classList.add(`${savedTheme}-mode`);
 themeBtn.textContent = savedTheme;
 
