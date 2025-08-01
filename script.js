@@ -19,12 +19,24 @@ const resultsChars = document.getElementById('results-chars');
 const uiControls = document.querySelector('.ui-controls');
 
 const wordList = [
+    'keyboard', 'ocean', 'beautiful', 'diamond', 'mountain', 'sunshine', 'technology', 'adventure', 'chocolate', 'quality',
+    'library', 'yesterday', 'tomorrow', 'wonderful', 'question', 'answer', 'friendship', 'journey', 'knowledge', 'science',
+    'language', 'history', 'computer', 'internet', 'software', 'hardware', 'music', 'family', 'holiday', 'celebrate',
+    'government', 'president', 'company', 'business', 'morning', 'evening', 'breakfast', 'dinner', 'energy', 'strength',
+    'imagine', 'discover', 'explore', 'create', 'challenge', 'success', 'future', 'past', 'present', 'moment',
+    'weather', 'season', 'summer', 'winter', 'autumn', 'spring', 'island', 'volcano', 'river', 'forest',
+    'galaxy', 'planet', 'universe', 'oxygen', 'hydrogen', 'animal', 'human', 'nature', 'photograph', 'painting',
+    'telephone', 'television', 'bicycle', 'airplane', 'engine', 'vehicle', 'character', 'story', 'chapter', 'paragraph',
+    'sentence', 'customer', 'product', 'service', 'market', 'money', 'economy', 'culture', 'tradition', 'ceremony',
+    'important', 'difficult', 'easy', 'simple', 'complex', 'ugly', 'delicious', 'terrible', 'fantastic',
+    'amazing', 'incredible', 'believe', 'receive', 'achieve', 'breathe', 'exercise', 'healthy', 'system', 'information',
+    'communication', 'education', 'development', 'environment', 'experience', 'opportunity', 'possibility', 'responsibility', 'community', 'organization',
     'a', 'about', 'above', 'across', 'act', 'add', 'afraid', 'after', 'again', 'against',
     'age', 'ago', 'air', 'all', 'also', 'always', 'am', 'among', 'an', 'and',
-    'animal', 'another', 'answer', 'any', 'appear', 'apple', 'are', 'area', 'around', 'as',
+    'another', 'any', 'appear', 'apple', 'are', 'area', 'around', 'as',
     'ask', 'at', 'back', 'ball', 'base', 'be', 'beauty', 'because', 'become', 'bed',
     'been', 'before', 'began', 'begin', 'behind', 'best', 'better', 'between', 'big', 'bird',
-    'black', 'blue', 'boat', 'body', 'book', 'both', 'bottom', 'box', 'boy', 'bring',
+    'black', 'blue', 'boat', 'body', 'book', 'both', 'free', 'palestine', 'bottom', 'box', 'boy', 'bring',
     'brought', 'build', 'but', 'by', 'call', 'came', 'can', 'car', 'care', 'carry',
     'cause', 'center', 'change', 'check', 'child', 'children', 'city', 'class', 'clear', 'close',
     'cold', 'color', 'come', 'common', 'complete', 'contain', 'correct', 'could', 'country', 'course',
@@ -38,28 +50,28 @@ const wordList = [
     'govern', 'great', 'green', 'ground', 'group', 'grow', 'had', 'half', 'hand', 'happen',
     'hard', 'has', 'have', 'he', 'head', 'hear', 'heard', 'help', 'her', 'here',
     'high', 'him', 'his', 'hold', 'home', 'horse', 'hot', 'hour', 'house', 'how',
-    'however', 'hundred', 'i', 'idea', 'if', 'important', 'in', 'increase', 'inside', 'interest',
+    'however', 'hundred', 'i', 'idea', 'if', 'in', 'increase', 'inside', 'interest',
     'into', 'is', 'it', 'its', 'job', 'join', 'jump', 'just', 'keep', 'key',
-    'kind', 'king', 'knew', 'know', 'land', 'language', 'large', 'last', 'late', 'laugh',
+    'kind', 'king', 'knew', 'know', 'land', 'large', 'last', 'late', 'laugh',
     'lazy', 'lead', 'learn', 'leave', 'left', 'less', 'let', 'letter', 'life', 'light',
     'like', 'line', 'list', 'listen', 'little', 'live', 'long', 'look', 'love', 'low',
     'machine', 'made', 'main', 'make', 'man', 'many', 'map', 'mark', 'may', 'me',
-    'mean', 'measure', 'men', 'might', 'mile', 'mind', 'mine', 'money', 'month', 'moon',
-    'more', 'morning', 'most', 'mother', 'move', 'much', 'music', 'must', 'my', 'name',
+    'mean', 'measure', 'men', 'might', 'mile', 'mind', 'mine', 'month', 'moon',
+    'more', 'most', 'mother', 'move', 'much', 'must', 'my', 'name',
     'nation', 'near', 'need', 'never', 'new', 'next', 'night', 'no', 'north', 'not',
     'note', 'notice', 'now', 'number', 'object', 'of', 'off', 'often', 'oh', 'old',
     'on', 'once', 'one', 'only', 'open', 'or', 'order', 'other', 'our', 'out',
     'over', 'own', 'page', 'paper', 'part', 'pass', 'pattern', 'people', 'person', 'picture',
-    'place', 'plan', 'plant', 'play', 'point', 'power', 'press', 'problem', 'product', 'program',
-    'public', 'pull', 'put', 'quality', 'question', 'quick', 'quiet', 'rain', 'ran', 'reach',
-    'read', 'ready', 'real', 'red', 'remember', 'rest', 'right', 'river', 'road', 'rock',
-    'room', 'round', 'rule', 'run', 'said', 'same', 'saw', 'say', 'school', 'science',
-    'sea', 'season', 'second', 'see', 'seem', 'self', 'sentence', 'serve', 'set', 'seven',
+    'place', 'plan', 'plant', 'play', 'point', 'power', 'press', 'problem', 'program',
+    'public', 'pull', 'put', 'quick', 'quiet', 'rain', 'ran', 'reach',
+    'read', 'ready', 'real', 'red', 'remember', 'rest', 'right', 'road', 'rock',
+    'room', 'round', 'rule', 'run', 'said', 'same', 'saw', 'say', 'school',
+    'sea', 'second', 'see', 'seem', 'self', 'serve', 'set', 'seven',
     'several', 'shape', 'she', 'ship', 'short', 'should', 'show', 'side', 'simple', 'since',
     'sing', 'sit', 'six', 'size', 'sleep', 'slow', 'small', 'so', 'some', 'something',
     'song', 'soon', 'sound', 'south', 'space', 'special', 'stand', 'start', 'state', 'stay',
-    'step', 'still', 'stood', 'stop', 'story', 'street', 'strong', 'study', 'such', 'sun',
-    'sure', 'system', 'table', 'take', 'talk', 'teach', 'tell', 'ten', 'than', 'that',
+    'step', 'still', 'stood', 'stop', 'street', 'strong', 'study', 'such', 'sun',
+    'sure', 'table', 'take', 'talk', 'teach', 'tell', 'ten', 'than', 'that',
     'the', 'their', 'them', 'then', 'there', 'these', 'they', 'thing', 'think', 'third',
     'this', 'those', 'though', 'thought', 'thousand', 'three', 'through', 'time', 'to', 'together',
     'told', 'too', 'took', 'top', 'toward', 'town', 'tree', 'try', 'turn', 'two',
@@ -67,7 +79,7 @@ const wordList = [
     'vowel', 'wait', 'walk', 'want', 'war', 'warm', 'was', 'watch', 'water', 'wave',
     'way', 'we', 'week', 'weight', 'well', 'went', 'were', 'west', 'what', 'wheel',
     'when', 'where', 'which', 'while', 'white', 'who', 'whole', 'why', 'wide', 'will',
-    'wind', 'winter', 'with', 'within', 'without', 'wood', 'word', 'work', 'world', 'would',
+    'wind', 'with', 'within', 'without', 'wood', 'word', 'work', 'world', 'would',
     'write', 'written', 'wrong', 'year', 'yes', 'yet', 'you', 'young', 'your', 'zero'
 ];
 const themes = ['light', 'dark', 'oled'];
@@ -83,8 +95,17 @@ const gameState = {
     mode: 'normal',
 };
 
-let statsInterval, mouseHideTimeout;
+let statsInterval;
 let currentThemeIndex = 1;
+
+function debounce(func, wait) {
+    let timeout;
+    return function(...args) {
+        const context = this;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(context, args), wait);
+    };
+}
 
 function animateLogo() {
     const logoText = "Kern";
@@ -101,8 +122,6 @@ function animateLogo() {
 function initGame() {
     gameState.active = false;
     clearInterval(statsInterval);
-    clearTimeout(mouseHideTimeout);
-
     document.body.classList.remove('hide-cursor');
     logo.classList.remove('faded-out');
     uiControls.classList.remove('faded-out');
@@ -126,8 +145,7 @@ function initGame() {
     const wordCount = gameState.mode === 'normal' ? 30 : 50;
     addWordsToDom(wordCount);
     updateCursor();
-    
-    mouseHideTimeout = setTimeout(() => document.body.classList.add('hide-cursor'), 2000);
+    startMouseHideTimeout();
 }
 
 function addWordsToDom(count) {
@@ -217,7 +235,6 @@ function handleCharacter(typedChar) {
 function handleBackspace() {
     if (gameState.currentIndex > 0) {
         gameState.currentIndex--;
-        gameState.totalTyped--;
         const charSpan = gameState.charElements[gameState.currentIndex];
         if (charSpan.classList.contains('incorrect')) {
             gameState.errors--;
@@ -236,11 +253,11 @@ function updateCursor() {
 function updateStats() {
     if (!gameState.active) return;
     const elapsedSeconds = (new Date() - gameState.startTime) / 1000;
-    
-    const correctChars = gameState.totalTyped - gameState.errors;
+
+    const correctChars = gameState.currentIndex - gameState.errors;
     const netWPM = (correctChars / 5) / (elapsedSeconds / 60);
-    
-    const accuracy = gameState.totalTyped > 0 ? Math.round(((gameState.totalTyped - gameState.errors) / gameState.totalTyped) * 100) : 100;
+
+    const accuracy = gameState.currentIndex > 0 ? Math.round(((gameState.currentIndex - gameState.errors) / gameState.currentIndex) * 100) : 100;
     
     wpmDisplay.textContent = Math.round(netWPM > 0 ? netWPM : 0);
     accuracyDisplay.textContent = accuracy < 0 ? 0 : accuracy;
@@ -259,24 +276,23 @@ function endGame() {
     gameState.active = false;
     gameState.endTime = new Date();
     clearInterval(statsInterval);
-    clearTimeout(mouseHideTimeout);
-
+    
     document.body.classList.remove('hide-cursor');
     logo.classList.remove('faded-out');
     uiControls.classList.remove('faded-out');
     
     const elapsedSeconds = (gameState.endTime - gameState.startTime) / 1000;
-    const correctChars = gameState.totalTyped - gameState.errors;
+    const correctChars = gameState.currentIndex - gameState.errors;
 
     const finalNetWPM = Math.round((correctChars / 5) / (elapsedSeconds / 60));
     const finalRawWPM = Math.round((gameState.totalTyped / 5) / (elapsedSeconds / 60));
-    const finalAccuracy = gameState.totalTyped > 0 ? Math.round((correctChars / gameState.totalTyped) * 100) : 100;
+    const finalAccuracy = gameState.currentIndex > 0 ? Math.round((correctChars / gameState.currentIndex) * 100) : 100;
     
     resultsWpm.textContent = finalNetWPM > 0 ? finalNetWPM : 0;
     resultsAcc.textContent = finalAccuracy < 0 ? 0 : finalAccuracy;
     resultsTime.textContent = `${elapsedSeconds.toFixed(1)}s`;
     resultsRaw.textContent = `raw ${finalRawWPM > 0 ? finalRawWPM : 0}`;
-    resultsChars.textContent = `${correctChars}/${gameState.errors}/${gameState.totalTyped}`;
+    resultsChars.textContent = `${correctChars}/${gameState.errors}/${gameState.currentIndex}`;
     
     statsDiv.classList.add('hidden');
     typingArea.classList.add('hidden');
@@ -285,9 +301,12 @@ function endGame() {
 }
 
 function toggleTheme() {
+    themes.forEach(theme => document.body.classList.remove(`${theme}-mode`));
+    
     currentThemeIndex = (currentThemeIndex + 1) % themes.length;
     const newTheme = themes[currentThemeIndex];
-    document.body.className = newTheme === 'dark' ? '' : `${newTheme}-mode`;
+    
+    document.body.classList.add(`${newTheme}-mode`);
     themeBtn.textContent = newTheme;
     localStorage.setItem('typing-theme', newTheme);
 }
@@ -310,31 +329,34 @@ function toggleFullscreen() {
     }
 }
 
+const startMouseHideTimeout = debounce(() => {
+    document.body.classList.add('hide-cursor');
+    if (gameState.active) {
+        logo.classList.add('faded-out');
+        uiControls.classList.add('faded-out');
+    }
+}, 1500);
+
 document.addEventListener('keydown', handleKeyPress);
 restartBtn.addEventListener('click', initGame);
 themeBtn.addEventListener('click', toggleTheme);
 modeBtn.addEventListener('click', toggleMode);
 fullscreenBtn.addEventListener('click', toggleFullscreen);
 document.addEventListener('fullscreenchange', updateFullscreenButton);
+
 document.addEventListener('mousemove', () => {
     document.body.classList.remove('hide-cursor');
     if (gameState.active) {
         logo.classList.remove('faded-out');
         uiControls.classList.remove('faded-out');
     }
-    clearTimeout(mouseHideTimeout);
-    mouseHideTimeout = setTimeout(() => {
-        document.body.classList.add('hide-cursor');
-        if (gameState.active) {
-            logo.classList.add('faded-out');
-            uiControls.classList.add('faded-out');
-        }
-    }, 1500);
+    startMouseHideTimeout();
 });
 
 const savedTheme = localStorage.getItem('typing-theme') || 'dark';
 currentThemeIndex = themes.indexOf(savedTheme);
-document.body.className = savedTheme === 'dark' ? '' : `${savedTheme}-mode`;
+if (currentThemeIndex === -1) currentThemeIndex = 1; 
+document.body.classList.add(`${savedTheme}-mode`);
 themeBtn.textContent = savedTheme;
 
 initGame();
