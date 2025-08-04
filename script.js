@@ -6,6 +6,7 @@ const restartBtn = document.getElementById('restart-btn');
 const themeBtn = document.getElementById('theme-btn');
 const modeBtn = document.getElementById('mode-btn');
 const appModeBtn = document.getElementById('app-mode-btn');
+const appModeControls = document.getElementById('app-mode-controls');
 const fullscreenBtn = document.getElementById('fullscreen-btn');
 const focusHint = document.getElementById('focus-hint');
 const container = document.querySelector('.container');
@@ -131,6 +132,7 @@ function initGame() {
     document.body.classList.remove('hide-cursor');
     logo.classList.remove('faded-out');
     uiControls.classList.remove('faded-out');
+    appModeControls.classList.remove('faded-out');
     
     gameState.currentIndex = 0;
     gameState.totalTyped = 0;
@@ -206,6 +208,7 @@ function handleKeyPress(e) {
         container.classList.add('typing');
         logo.classList.add('faded-out');
         uiControls.classList.add('faded-out');
+        appModeControls.classList.add('faded-out');
     }
 
     if (e.key.length > 1 && e.key !== 'Backspace') return;
@@ -288,6 +291,7 @@ function endGame() {
     document.body.classList.remove('hide-cursor');
     logo.classList.remove('faded-out');
     uiControls.classList.remove('faded-out');
+    appModeControls.classList.remove('faded-out');
     
     const elapsedSeconds = (gameState.endTime - gameState.startTime) / 1000;
     const correctChars = gameState.currentIndex - gameState.errors;
@@ -362,6 +366,7 @@ const startMouseHideTimeout = debounce(() => {
     if (gameState.active) {
         logo.classList.add('faded-out');
         uiControls.classList.add('faded-out');
+        appModeControls.classList.add('faded-out');
     }
 }, 1500);
 
@@ -378,6 +383,7 @@ document.addEventListener('mousemove', () => {
     if (gameState.active) {
         logo.classList.remove('faded-out');
         uiControls.classList.remove('faded-out');
+        appModeControls.classList.remove('faded-out');
     }
     startMouseHideTimeout();
 });

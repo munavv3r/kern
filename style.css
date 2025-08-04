@@ -52,6 +52,10 @@ body.hide-cursor { cursor: none; }
 
 @keyframes soothing-fade-in { 0% { opacity: 0; transform: translateX(-20px); filter: blur(5px); } 100% { opacity: 1; transform: translateX(0); filter: blur(0px); } }
 
+#app-mode-controls {
+    transition: opacity 0.3s ease-out;
+}
+
 #app-content-area {
     width: 100%;
     height: 100%;
@@ -102,7 +106,7 @@ body.hide-cursor { cursor: none; }
 #learn-mode-message p { font-size: 1rem; color: var(--text-color); }
 
 .ui-controls { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; width: 100%; transition: opacity 0.3s ease-out; }
-.ui-controls.faded-out, #logo.faded-out { opacity: 0; pointer-events: none; }
+.ui-controls.faded-out, #logo.faded-out, #app-mode-controls.faded-out { opacity: 0; pointer-events: none; }
 .top-row { display: flex; justify-content: center; gap: 1rem; }
 .bottom-row { display: flex; justify-content: center; }
 #theme-btn, #mode-btn, #fullscreen-btn, #app-mode-btn { background: none; border: none; cursor: pointer; color: var(--ui-color); font-family: 'Poppins', sans-serif; font-size: 0.9rem; font-weight: 400; padding: 0.5rem 1rem; border-radius: 6px; opacity: 0.7; transition: opacity 0.3s, color 0.3s, background-color 0.3s; }
