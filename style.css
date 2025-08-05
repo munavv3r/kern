@@ -99,8 +99,16 @@ body.hide-cursor { cursor: none; }
 #learn-mode-message {
     text-align: center;
     color: var(--main-color);
-    max-width: 600px;
     padding-top: 5rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#learn-mode-message h2,
+#learn-mode-message p {
+    max-width: 600px;
 }
 #learn-mode-message h2 { font-size: 1.5rem; font-weight: 500; margin-bottom: 0.5rem; color: var(--main-color); }
 #learn-mode-message p { font-size: 1rem; color: var(--text-color); }
