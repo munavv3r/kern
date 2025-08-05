@@ -27,7 +27,7 @@
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { background-color: var(--bg-color); font-family: 'Poppins', sans-serif; color: var(--text-color); display: flex; justify-content: center; align-items: center; min-height: 100vh; font-size: 1.5rem; font-weight: 300; transition: background-color 0.3s, color 0.3s; }
+body { background-color: var(--bg-color); font-family: 'Poppins', sans-serif; color: var(--text-color); display: flex; justify-content: center; align-items: center; min-height: 100vh; font-size: 1.5rem; font-weight: 300; transition: background-color 0.3s, color 0.3s; overflow-x: hidden; }
 body.hide-cursor { cursor: none; }
 
 .container {
@@ -124,3 +124,61 @@ body.hide-cursor { cursor: none; }
     padding-top: 2rem;
 }
 .hidden { opacity: 0 !important; pointer-events: none !important; position: absolute !important; display: none !important; }
+
+
+.keyboard-chassis {
+    display: flex;
+    flex-direction: column;
+    font-size: clamp(25px, 4vw, 50px);
+    border: 0.06em solid #606060;
+    border-radius: 0.32em;
+    padding: 0.4em 0.5em;
+    box-sizing: border-box;
+    margin-top: 2rem;
+}
+
+.keyboard-row {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.keyboard-row:not(:first-child) {
+    margin-top: -0.224em;
+}
+#number-row {
+    margin-top: -0.08em;
+}
+
+.keyboard-row svg {
+    height: 1em;
+    width: auto;
+    flex-shrink: 0;
+}
+
+.keyboard-row:not(.f-row) svg:not(:first-child),
+.key-group svg:not(:first-child) {
+    margin-left: -0.224em;
+}
+
+.f-row {
+    justify-content: space-between;
+    width: 100%;
+}
+.key-group {
+    display: flex;
+}
+
+.keyboard-row svg {
+    transition: transform 0.08s ease-out;
+}
+.keyboard-row svg.active {
+    transform: scale(0.85);
+}
+#Space.active {
+    transform: scale(0.97);
+}
+#Backspace.active, #Tab.active, #Backslash.active, #CapsLock.active,
+#Enter.active, #ShiftLeft.active, #ShiftRight.active {
+    transform: scale(0.90);
+}

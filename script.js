@@ -397,3 +397,18 @@ themeBtn.textContent = savedTheme;
 
 initGame();
 animateLogo();
+
+window.addEventListener('keydown', function(event) {
+    const keyElement = document.getElementById(event.code);
+    if (keyElement) {
+        event.preventDefault();
+        keyElement.classList.add('active');
+    }
+});
+window.addEventListener('keyup', function(event) {
+    const keyElement = document.getElementById(event.code);
+    if (keyElement) {
+        event.preventDefault();
+        keyElement.classList.remove('active');
+    }
+});
