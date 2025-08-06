@@ -99,11 +99,12 @@ body.hide-cursor { cursor: none; }
 #learn-mode-message {
     text-align: center;
     color: var(--main-color);
-    padding-top: 5rem;
+    padding-top: 0.5rem; 
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 1.5rem;
 }
 
 #learn-mode-message h2,
@@ -113,7 +114,7 @@ body.hide-cursor { cursor: none; }
 #learn-mode-message h2 { font-size: 1.5rem; font-weight: 500; color: var(--main-color); }
 #learn-mode-message p { font-size: 1rem; color: var(--text-color); }
 
-.ui-controls { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; width: 100%; transition: opacity 0.3s ease-out; }
+.ui-controls { display: flex; flex-direction: column; align-items: center; gap: 1rem; /* Adjusted gap */ width: 100%; transition: opacity 0.3s ease-out; }
 .ui-controls.faded-out, #logo.faded-out, #app-mode-controls.faded-out { opacity: 0; pointer-events: none; }
 .top-row { display: flex; justify-content: center; gap: 1rem; }
 .bottom-row { display: flex; justify-content: center; }
@@ -133,16 +134,21 @@ body.hide-cursor { cursor: none; }
 }
 .hidden { opacity: 0 !important; pointer-events: none !important; position: absolute !important; display: none !important; }
 
+/* New rule to hide specific buttons in learn mode */
+.container.learn-mode-active #restart-btn,
+.container.learn-mode-active #mode-btn {
+    display: none;
+}
+
 
 .keyboard-chassis {
     display: flex;
     flex-direction: column;
-    font-size: clamp(25px, 4vw, 50px);
+    font-size: clamp(35px, 5.5vw, 65px);
     border: 0.06em solid #606060;
     border-radius: 0.32em;
     padding: 0.4em 0.5em;
     box-sizing: border-box;
-    margin: 2rem 0;
 }
 
 .keyboard-row {

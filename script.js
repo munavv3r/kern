@@ -112,6 +112,21 @@ function debounce(func, wait) {
     };
 }
 
+// New function to load the keyboard from an external file
+async function loadKeyboard() {
+    try {
+        const response = await fetch('keyboard.html');
+        const keyboardHTML = await response.text();
+        const keyboardContainer = document.querySelector('.keyboard-chassis');
+        if (keyboardContainer) {
+            keyboardContainer.innerHTML = keyboardHTML;
+        }
+    } catch (error) {
+        console.error('Error loading keyboard:', error);
+    }
+}
+
+
 function animateLogo() {
     const logoText = "Kern";
     logo.innerHTML = '';
@@ -327,14 +342,15 @@ function toggleMode() {
     initGame();
 }
 
+// Updated function to handle visibility via CSS classes
 function toggleAppMode() {
     if (gameState.appMode === 'practice') {
         gameState.appMode = 'learn';
         appModeBtn.textContent = 'learn';
         practiceContent.classList.add('hidden');
         focusHint.classList.add('hidden');
-        uiControls.classList.add('hidden');
         learnModeMessage.classList.remove('hidden');
+        container.classList.add('learn-mode-active'); // Add class to control buttons
         clearInterval(statsInterval);
         gameState.active = false;
         container.classList.remove('typing');
@@ -344,7 +360,7 @@ function toggleAppMode() {
         learnModeMessage.classList.add('hidden');
         practiceContent.classList.remove('hidden');
         focusHint.classList.remove('hidden');
-        uiControls.classList.remove('hidden');
+        container.classList.remove('learn-mode-active'); // Remove class
         initGame();
     }
 }
@@ -395,6 +411,8 @@ if (currentThemeIndex === -1) currentThemeIndex = 1;
 document.body.classList.add(`${savedTheme}-mode`);
 themeBtn.textContent = savedTheme;
 
+// Initial calls on page load
+loadKeyboard();
 initGame();
 animateLogo();
 
