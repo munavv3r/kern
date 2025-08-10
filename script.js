@@ -333,7 +333,7 @@ function toggleAppMode() {
         appModeBtn.textContent = 'learn';
         practiceContent.classList.add('hidden');
         focusHint.classList.add('hidden');
-        uiControls.classList.add('hidden');
+        restartBtn.classList.add('hidden');
         learnModeMessage.classList.remove('hidden');
         clearInterval(statsInterval);
         gameState.active = false;
@@ -345,6 +345,7 @@ function toggleAppMode() {
         practiceContent.classList.remove('hidden');
         focusHint.classList.remove('hidden');
         uiControls.classList.remove('hidden');
+        restartBtn.classList.remove('hidden');
         initGame();
     }
 }

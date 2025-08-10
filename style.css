@@ -36,12 +36,12 @@ body.hide-cursor { cursor: none; }
     height: 90vh;
     max-height: 600px;
     display: grid;
-    grid-template-rows: auto auto 1fr auto auto;
+    grid-template-rows: auto auto 1fr;
     align-items: center;
     justify-items: center;
     gap: 1rem;
+    position: relative;
 }
-
 #logo { font-size: 1.2rem; font-weight: 700; color: var(--ui-color); letter-spacing: 0.2em; text-transform: uppercase; }
 
 #logo.animate-in span { display: inline-block; opacity: 0; animation: soothing-fade-in 1.2s forwards cubic-bezier(0.2, 0.8, 0.2, 1); }
@@ -93,13 +93,12 @@ body.hide-cursor { cursor: none; }
 .char.cursor::before { content: ''; position: absolute; left: -1px; top: 10%; bottom: 10%; width: 2px; background-color: var(--cursor-color); animation: blink 1s infinite; }
 @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-#focus-hint { color: var(--text-color); opacity: 0; transition: opacity 0.3s ease; font-size: 1rem; pointer-events: none; }
+#focus-hint {color: var(--text-color);opacity: 0;transition: opacity 0.3s ease;font-size: 1rem;pointer-events: none;position: absolute;top: 69%;left: 50%;transform: translate(-50%, -50%);width: 100%;text-align: center;}
 #focus-hint.visible { opacity: 0.5; }
 
 #learn-mode-message {
     text-align: center;
     color: var(--main-color);
-    padding-top: 5rem;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -113,14 +112,14 @@ body.hide-cursor { cursor: none; }
 #learn-mode-message h2 { font-size: 1.5rem; font-weight: 500; color: var(--main-color); }
 #learn-mode-message p { font-size: 1rem; color: var(--text-color); }
 
-.ui-controls { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; width: 100%; transition: opacity 0.3s ease-out; }
+.ui-controls {position: absolute;bottom: 2rem;left: 50%;transform: translateX(-50%);display: flex;flex-direction: column;align-items: center;gap: 1.5rem;width: 100%;transition: opacity 0.3s ease-out;}
 .ui-controls.faded-out, #logo.faded-out, #app-mode-controls.faded-out { opacity: 0; pointer-events: none; }
 .top-row { display: flex; justify-content: center; gap: 1rem; }
 .bottom-row { display: flex; justify-content: center; }
 #theme-btn, #mode-btn, #fullscreen-btn, #app-mode-btn { background: none; border: none; cursor: pointer; color: var(--ui-color); font-family: 'Poppins', sans-serif; font-size: 0.9rem; font-weight: 400; padding: 0.5rem 1rem; border-radius: 6px; opacity: 0.7; transition: opacity 0.3s, color 0.3s, background-color 0.3s; }
 #theme-btn:hover, #mode-btn:hover, #fullscreen-btn:hover, #app-mode-btn:hover { opacity: 1; background-color: rgba(128, 128, 128, 0.1); }
 #restart-btn { background: none; border: none; cursor: pointer; color: var(--ui-color); width: 3rem; height: 3rem; opacity: 0.7; transition: opacity 0.3s, transform 0.3s ease-out, color 0.3s; }
-#restart-btn:hover { opacity: 1; transform: rotate(360deg); }
+#restart-btn:hover { opacity: 1; }
 #restart-btn svg { width: 100%; height: 100%; fill: currentColor; }
 
 #practice-content {
