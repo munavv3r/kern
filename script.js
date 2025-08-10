@@ -112,20 +112,6 @@ function debounce(func, wait) {
     };
 }
 
-async function loadKeyboard() {
-    try {
-        const response = await fetch('keyboard.html');
-        const keyboardHTML = await response.text();
-        const keyboardContainer = document.querySelector('.keyboard-chassis');
-        if (keyboardContainer) {
-            keyboardContainer.innerHTML = keyboardHTML;
-        }
-    } catch (error) {
-        console.error('Error loading keyboard:', error);
-    }
-}
-
-
 function animateLogo() {
     const logoText = "Kern";
     logo.innerHTML = '';
@@ -349,7 +335,6 @@ function toggleAppMode() {
         focusHint.classList.add('hidden');
         restartBtn.classList.add('hidden');
         learnModeMessage.classList.remove('hidden');
-        container.classList.add('learn-mode-active');
         clearInterval(statsInterval);
         gameState.active = false;
         container.classList.remove('typing');
@@ -411,7 +396,6 @@ if (currentThemeIndex === -1) currentThemeIndex = 1;
 document.body.classList.add(`${savedTheme}-mode`);
 themeBtn.textContent = savedTheme;
 
-loadKeyboard();
 initGame();
 animateLogo();
 
