@@ -399,11 +399,50 @@ themeBtn.textContent = savedTheme;
 initGame();
 animateLogo();
 
+
+let keySequence = '';
+
+function triggerWaveEffect(type) {
+    const keys = document.querySelectorAll('.keyboard-chassis svg');
+    if (keys.length === 0) return;
+
+    const popClass = `wave-effect-${type}`;
+
+    keys.forEach(key => {
+        key.classList.remove('wave-effect-correct', 'wave-effect-incorrect');
+    });
+
+    setTimeout(() => {
+        keys.forEach(key => {
+            key.classList.add(popClass);
+            key.addEventListener('animationend', () => {
+                key.classList.remove(popClass);
+            }, { once: true });
+        });
+    }, 10);
+}
+
+
 window.addEventListener('keydown', function(event) {
     const keyElement = document.getElementById(event.code);
     if (keyElement) {
         event.preventDefault();
         keyElement.classList.add('active');
+    }
+
+    if (gameState.appMode === 'learn') {
+        if (event.key.length === 1 && event.key.match(/[a-z]/i)) {
+            keySequence += event.key.toLowerCase();
+            if (keySequence.length > 4) {
+                keySequence = keySequence.slice(-4);
+            }
+
+            if (keySequence.endsWith('kern')) {
+                setTimeout(() => triggerWaveEffect('correct'), 100); 
+            } else if (keySequence.endsWith('nerk')) {
+                setTimeout(() => triggerWaveEffect('incorrect'), 100);
+            }
+        }
     }
 });
 window.addEventListener('keyup', function(event) {

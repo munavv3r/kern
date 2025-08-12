@@ -4,8 +4,9 @@
     --text-color: #7f848e;
     --ui-color: #7f848e;
     --correct-color: #6ee7b7;
-    --incorrect-color: #fca5a5;
+    --incorrect-color: #ef4444; 
     --cursor-color: #6ee7b7;
+    --cursor-active-fill: rgba(110, 231, 183, 0.1);
 }
 .light-mode {
     --bg-color: #e5e7eb;
@@ -15,6 +16,7 @@
     --correct-color: #16a34a;
     --incorrect-color: #dc2626;
     --cursor-color: #16a34a;
+    --cursor-active-fill: rgba(22, 163, 74, 0.1);
 }
 .oled-mode {
     --bg-color: #000000;
@@ -24,6 +26,7 @@
     --correct-color: #48b5a1;
     --incorrect-color: #e76f51;
     --cursor-color: #48b5a1;
+    --cursor-active-fill: rgba(72, 181, 161, 0.15);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -36,7 +39,7 @@ body.hide-cursor { cursor: none; }
     height: 90vh;
     max-height: 600px;
     display: grid;
-    grid-template-rows: auto auto 1fr;
+    grid-template-rows: auto auto 1fr auto;
     align-items: center;
     justify-items: center;
     gap: 1rem;
@@ -61,8 +64,9 @@ body.hide-cursor { cursor: none; }
     height: 100%;
     position: relative;
     display: flex;
-    align-items: flex-start;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
 }
 
 #stats { display: flex; gap: 2rem; opacity: 0.5; transition: opacity 0.3s ease; }
@@ -93,7 +97,16 @@ body.hide-cursor { cursor: none; }
 .char.cursor::before { content: ''; position: absolute; left: -1px; top: 10%; bottom: 10%; width: 2px; background-color: var(--cursor-color); animation: blink 1s infinite; }
 @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-#focus-hint {color: var(--text-color);opacity: 0;transition: opacity 0.3s ease;font-size: 1rem;pointer-events: none;position: absolute;top: 69%;left: 50%;transform: translate(-50%, -50%);width: 100%;text-align: center;}
+#focus-hint {
+    color: var(--text-color);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    font-size: 1rem;
+    pointer-events: none;
+    width: 100%;
+    text-align: center;
+    margin-top: 1.5rem;
+}
 #focus-hint.visible { opacity: 0.5; }
 
 #learn-mode-message {
@@ -112,7 +125,14 @@ body.hide-cursor { cursor: none; }
 #learn-mode-message h2 { font-size: 1.5rem; font-weight: 500; color: var(--main-color); }
 #learn-mode-message p { font-size: 1rem; color: var(--text-color); }
 
-.ui-controls {position: absolute;bottom: 2rem;left: 50%;transform: translateX(-50%);display: flex;flex-direction: column;align-items: center;gap: 1.5rem;width: 100%;transition: opacity 0.3s ease-out;}
+.ui-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    width: 100%;
+    transition: opacity 0.3s ease-out;
+}
 .ui-controls.faded-out, #logo.faded-out, #app-mode-controls.faded-out { opacity: 0; pointer-events: none; }
 .top-row { display: flex; justify-content: center; gap: 1rem; }
 .bottom-row { display: flex; justify-content: center; }
@@ -132,16 +152,16 @@ body.hide-cursor { cursor: none; }
 }
 .hidden { opacity: 0 !important; pointer-events: none !important; position: absolute !important; display: none !important; }
 
-
 .keyboard-chassis {
     display: flex;
     flex-direction: column;
     font-size: clamp(25px, 4vw, 50px);
-    border: 0.06em solid #606060;
+    border: 0.06em solid var(--ui-color);
     border-radius: 0.32em;
     padding: 0.4em 0.5em;
     box-sizing: border-box;
     margin: 2rem 0;
+    transition: border-color 0.3s;
 }
 
 .keyboard-row {
@@ -176,16 +196,96 @@ body.hide-cursor { cursor: none; }
     display: flex;
 }
 
+.keyboard-chassis svg text {
+    fill: var(--main-color);
+    transition: fill 0.3s ease-out;
+    font-family: 'Poppins', sans-serif;
+}
+
+.keyboard-chassis svg g rect {
+    fill: transparent;
+    transition: stroke 0.3s ease-out, fill 0.3s ease-out;
+}
+.keyboard-chassis svg g rect:first-child {
+    stroke: var(--ui-color);
+}
+.keyboard-chassis svg g rect:last-child {
+    stroke: var(--text-color);
+}
+
 .keyboard-row svg {
     transition: transform 0.08s ease-out;
 }
 .keyboard-row svg.active {
     transform: scale(0.85);
 }
+
+.keyboard-row svg.active g rect {
+    stroke: var(--cursor-color);
+    fill: var(--cursor-active-fill);
+    transition-duration: 0.08s;
+}
+.keyboard-row svg.active text {
+    fill: var(--cursor-color);
+    transition-duration: 0.08s;
+}
+
 #Space.active {
     transform: scale(0.97);
 }
 #Backspace.active, #Tab.active, #Backslash.active, #CapsLock.active,
 #Enter.active, #ShiftLeft.active, #ShiftRight.active {
     transform: scale(0.90);
+}
+
+.wave-effect-correct text {
+    animation: wave-text-correct 0.3s ease-out;
+}
+.wave-effect-correct g rect:first-child {
+    animation: wave-stroke-outer-correct 0.3s ease-out;
+}
+.wave-effect-correct g rect:last-child {
+    animation: wave-stroke-inner-correct 0.3s ease-out;
+}
+
+.wave-effect-incorrect text {
+    animation: wave-text-incorrect 0.3s ease-out;
+}
+.wave-effect-incorrect g rect:first-child {
+    animation: wave-stroke-outer-incorrect 0.3s ease-out;
+}
+.wave-effect-incorrect g rect:last-child {
+    animation: wave-stroke-inner-incorrect 0.3s ease-out;
+}
+
+@keyframes wave-text-correct {
+    0% { fill: var(--main-color); }
+    10% { fill: var(--correct-color); }
+    100% { fill: var(--main-color); }
+}
+@keyframes wave-stroke-outer-correct {
+    0% { stroke: var(--ui-color); }
+    10% { stroke: var(--correct-color); }
+    100% { stroke: var(--ui-color); }
+}
+@keyframes wave-stroke-inner-correct {
+    0% { stroke: var(--text-color); }
+    10% { stroke: var(--correct-color); }
+    100% { stroke: var(--text-color); }
+}
+
+@keyframes wave-text-incorrect {
+    0% { fill: var(--main-color); }
+    10% { fill: var(--incorrect-color); }
+    100% { fill: var(--main-color); }
+}
+@keyframes wave-stroke-outer-incorrect {
+    0% { stroke: var(--ui-color); }
+    10% { stroke: var(--incorrect-color); }
+    100% { stroke: var(--ui-color); }
+}
+@keyframes wave-stroke-inner-incorrect {
+    0% { stroke: var(--text-color); }
+    10% { stroke: var(--incorrect-color); }
+    100% { stroke: var(--text-color); }
 }
